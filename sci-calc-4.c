@@ -4,13 +4,16 @@
 #include <stdbool.h>
 #define MAX 1000;
 
+//log sqr cub abs fac sin cos tan
+//sqt pow
+
 const char spc = ' ';
 
 double operands[1000];
 char operations[1000], userTxt[1000];
 char strOperands[1000][1000];
 
-char specialFunctions[8][3] = {"log", "sqr", "cub", "abs", "fac", "sin", "cos", "tan"};
+char specialFunctions[7][3] = {"log", "sqr", "cub", "fac", "sin", "cos", "tan"};
 
 void decodeString(char text[])
 {
@@ -49,9 +52,11 @@ void decodeString(char text[])
   }
 }
 
-int getLen2(double opnds[]){
+int getLen2(double opnds[])
+{
   int x = 0;
-  while(opnds[x] !=  0){
+  while (opnds[x] != 0)
+  {
     x++;
   }
 
@@ -87,12 +92,15 @@ double getFunNum(char currFun[3], char funs[][3], int n)
   return res;
 }
 
-long int factorial(int n){
-  if(n<=1){
+long int factorial(int n)
+{
+  if (n <= 1)
+  {
     return 1;
   }
-  else{
-    return n*factorial(n-1);
+  else
+  {
+    return n * factorial(n - 1);
   }
 }
 double degreeToRadian(double deg)
@@ -100,30 +108,25 @@ double degreeToRadian(double deg)
   return deg * 0.0175;
 }
 
-double getValOfOp(double functionNumber,double operand){
+double getValOfOp(double functionNumber, double operand)
+{
   int x = (int)functionNumber;
-  switch(x){
-    case 1:
-      return log(operand);
-    case 2:
-      return operand*operand;
-    case 3:
-      return powf(operand,3);
-    case 4:
-      if(operand<0){
-        return (0-operand);
-      }  
-      else{
-        return operand;
-      } 
-    case 5:
-      return (double)(factorial((int)operand));
-    case 6:
-      return sin(degreeToRadian(operand)); 
-    case 7:
-      return cos(degreeToRadian(operand));
-    case 8:
-      return tan(degreeToRadian(operand));    
+  switch (x)
+  {
+  case 1:
+    return log(operand);
+  case 2:
+    return operand * operand;
+  case 3:
+    return powf(operand, 3);
+  case 4:
+    return (double)(factorial((int)operand));
+  case 5:
+    return sin(degreeToRadian(operand));
+  case 6:
+    return cos(degreeToRadian(operand));
+  case 7:
+    return tan(degreeToRadian(operand));
   }
 }
 
@@ -155,13 +158,14 @@ double getAnsOp(char exp[1000])
       fun[i] = exp[i];
     }
 
-    funNum = getFunNum(fun, specialFunctions, 8);
+    funNum = getFunNum(fun, specialFunctions, 7);
     double num = 0;
-    for(int i=3;i<x;i++){
-      num = num*10 + (exp[i] - '0');
+    for (int i = 3; i < x; i++)
+    {
+      num = num * 10 + (exp[i] - '0');
     }
 
-    double spcAns = getValOfOp(funNum,num);
+    double spcAns = getValOfOp(funNum, num);
 
     val = spcAns;
   }
@@ -172,7 +176,8 @@ double getAnsOp(char exp[1000])
 void fillOperands(char arr[][1000])
 {
   int l = 0;
-  while(arr[l][0] != '\0'){
+  while (arr[l][0] != '\0')
+  {
     l++;
   }
   for (int i = 0; i < l; i++)
@@ -182,29 +187,28 @@ void fillOperands(char arr[][1000])
   }
 }
 
+// void printArr2(char arr[][1000], int n)
+// {
 
-void printArr2(char arr[][1000], int n)
-{
+//   for (int i = 0; i < n; i++)
+//   {
+//     int j = 0;
+//     while (strOperands[i][j] != '\0')
+//     {
+//       printf("%c", strOperands[i][j]);
+//       j++;
+//     }
+//     printf("   ");
+//   }
+// }
 
-  for (int i = 0; i < n; i++)
-  {
-    int j = 0;
-    while (strOperands[i][j] != '\0')
-    {
-      printf("%c", strOperands[i][j]);
-      j++;
-    }
-    printf("   ");
-  }
-}
-
-void printOpnds(double opnds[]){
-  int x = getLen2(opnds);
-  printf("\n");
-  for(int i=0; i<x;i++){
-    printf("%lf  ",opnds[i]);
-  }
-}
+// void printOpnds(double opnds[]){
+//   int x = getLen2(opnds);
+//   printf("\n");
+//   for(int i=0; i<x;i++){
+//     printf("%lf  ",opnds[i]);
+//   }
+// }
 
 double giveAns(double a, double b, char op)
 {
@@ -225,7 +229,6 @@ double giveAns(double a, double b, char op)
     return 0;
   }
 }
-
 
 void applyBodmas(double operands[], char operations[])
 {
@@ -272,7 +275,6 @@ void applyBodmas(double operands[], char operations[])
   }
 }
 
-
 double calculateOperation(double operands[], char operations[])
 {
   double res = 0;
@@ -292,32 +294,35 @@ double calculateOperation(double operands[], char operations[])
   return res;
 }
 
-
-
-
-
-
 int main()
 {
   printf("These are the functions you can use \n");
-  printf("log for getting log of a number\nsqr for getting square of a number\ncub for getting cube of a number\nabs for getting absolute of a number\nfac for getting factorial of a number\nsin,cos ,tan for getting respective valuse\n");
-  printf("exampe: 23+sin45+sq4+cub3+log20\n");
-  printf("Enter the expression: ");
-  gets(userTxt);
-  for (int i = 0; i < 1000; i++)
-  {
-    operands[i] = 0;
-    strOperands[i][0] = '\0';
-  }
-  decodeString(userTxt);
-  
-  fillOperands(strOperands);
-  // printArr2(strOperands, 10);
-  // printOpnds(operands);
-  applyBodmas(operands,operations);
-  double ans = calculateOperation(operands, operations);
-  printf("your answere is %lf", ans);
+  printf("log for getting log of a number\nsqr for getting square of a number\ncub for getting cube of a number\nfac for getting factorial of a number\nsin,cos ,tan for getting respective valuse\nEnter exit to exit the loop\n\n");
+  printf("exampe: 23+sin45+sq4+cub3+log20\n\n");
 
+  while (true)
+  {
+    printf("Enter the expression: ");
+    gets(userTxt);
+    //checking for exit
+    if(userTxt[0]=='e'&&userTxt[1]=='x'){
+      break;
+    }
+
+    for (int i = 0; i < 1000; i++)
+    {
+      operands[i] = 0;
+      strOperands[i][0] = '\0';
+    }
+    decodeString(userTxt);
+
+    fillOperands(strOperands);
+    // printArr2(strOperands, 10);
+    // printOpnds(operands);
+    applyBodmas(operands, operations);
+    double ans = calculateOperation(operands, operations);
+    printf("your answere is %lf\n", ans);
+  }
 
   return 0;
 }
